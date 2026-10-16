@@ -46,47 +46,69 @@ const walkthroughs: Record<string, Screenshot[]> = {
       src: "/images/projects/signalbridge/01-overview.png",
       title: "Understand the integration scenario",
       description:
-        "Explore the fictional customer challenge, proposed solution, and live application overview.",
+        "Explore the fictional customer challenge and application overview.",
     },
     {
       src: "/images/projects/signalbridge/02-customers.png",
       title: "Manage persistent customer records",
       description:
-        "View customer records stored in Supabase PostgreSQL and access create, edit, and delete actions.",
+        "View and manage customer records stored in Supabase PostgreSQL.",
     },
     {
       src: "/images/projects/signalbridge/03-api-explorer.png",
       title: "Explore REST API operations",
       description:
-        "Select GET, POST, PATCH, and DELETE operations through a browser-based API Explorer.",
+        "Select GET, POST, PATCH, and DELETE operations through the API Explorer.",
     },
     {
       src: "/images/projects/signalbridge/04-api-response.png",
       title: "Inspect a real JSON response",
       description:
-        "Execute a GET request and inspect the HTTP 200 status, response time, and customer JSON returned by the dashboard API.",
+        "Inspect the HTTP status, response time, and JSON returned by the dashboard API.",
+    },
+  ],
+  triageiq: [
+    {
+      src: "/images/projects/triageiq/01-tickets.png",
+      title: "Select a customer support ticket",
+      description:
+        "Choose from fictional customer issues with different severity levels, including booking failures, missing confirmation emails, and duplicate appointments.",
+    },
+    {
+      src: "/images/projects/triageiq/02-investigation.png",
+      title: "Watch the AI agent investigate",
+      description:
+        "Review saved investigation history and the actual diagnostic tool calls executed by the agent, including booking status, error logs, service health, and customer configuration.",
+    },
+    {
+      src: "/images/projects/triageiq/03-report.png",
+      title: "Review evidence-based findings",
+      description:
+        "Inspect the AI-generated report containing the likely root cause, supporting evidence, confidence level, recommended resolution, and draft customer response.",
+    },
+    {
+      src: "/images/projects/triageiq/04-approval.png",
+      title: "Approve or reject the recommendation",
+      description:
+        "Review and edit the proposed resolution, add reviewer notes, and record an approval or rejection decision. Corrective actions are not automatically executed.",
     },
   ],
 };
 
 export function generateStaticParams() {
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
+  return projects.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 
-  if (!project) {
-    return { title: "Project Not Found" };
-  }
-
-  return {
-    title: `${project.title} | William Sessions`,
-    description: project.description,
-  };
+  return project
+    ? {
+        title: `${project.title} | William Sessions`,
+        description: project.description,
+      }
+    : { title: "Project Not Found" };
 }
 
 function SectionHeading({
@@ -148,18 +170,18 @@ function ArrowIcon() {
   );
 }
 
-function ScreenshotWalkthrough({
-  slug,
-}: {
-  slug: string;
-}) {
+function ScreenshotWalkthrough({ slug }: { slug: string }) {
   const screenshots = walkthroughs[slug];
+  if (!screenshots?.length) return null;
 
-  if (!screenshots) {
-    return null;
-  }
-
-  const isCopilot = slug === "ai-sales-engineer-copilot";
+  const descriptions: Record<string, string> = {
+    "ai-sales-engineer-copilot":
+      "Screenshots from the working AI application, using fictional customer requirements and product documentation.",
+    "signalbridge-integration-lab":
+      "Screenshots from the working SignalBridge application, including customer management, REST operations, and a real JSON response.",
+    triageiq:
+      "A walkthrough of the working AI support agent, from ticket selection and autonomous investigation to evidence-based recommendations and human review.",
+  };
 
   return (
     <section
@@ -170,11 +192,7 @@ function ScreenshotWalkthrough({
         <SectionHeading
           number="APPLICATION WALKTHROUGH"
           title="See it in action"
-          description={
-            isCopilot
-              ? "Screenshots from the working AI application, using fictional customer requirements and product documentation."
-              : "Screenshots from the working SignalBridge application, including customer management, REST operations, and a real JSON response."
-          }
+          description={descriptions[slug]}
         />
 
         <div className="grid gap-8 md:grid-cols-2">
@@ -198,28 +216,23 @@ function ScreenshotWalkthrough({
                   className="h-72 w-full object-contain transition duration-300 group-hover:scale-[1.02] sm:h-80"
                 />
               </a>
-
               <div className="p-6">
                 <div className="mb-3 text-xs font-bold uppercase tracking-[0.15em] text-blue-600">
                   Step {String(index + 1).padStart(2, "0")}
                 </div>
-
                 <h3 className="text-lg font-semibold text-slate-950">
                   {screenshot.title}
                 </h3>
-
                 <p className="mt-2 text-sm leading-7 text-slate-600">
                   {screenshot.description}
                 </p>
-
                 <a
                   href={screenshot.src}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900"
                 >
-                  View full screenshot
-                  <ArrowIcon />
+                  View full screenshot <ArrowIcon />
                 </a>
               </div>
             </article>
@@ -227,8 +240,8 @@ function ScreenshotWalkthrough({
         </div>
 
         <p className="mt-7 text-sm leading-7 text-slate-500">
-          This is a functional technical demonstration using fictional
-          customer data. Live access will be linked after deployment.
+          These screenshots show a functional application using fictional
+          customer data. The live demo is available through the link above.
         </p>
       </div>
     </section>
@@ -325,42 +338,34 @@ function CopilotArchitecture() {
     <ArchitectureFrame
       eyebrow="Architecture Diagram"
       title="From customer requirements to technical recommendations"
-      description="The application uses a server-side workflow to retrieve relevant documentation before sending context to the OpenAI API. The API key remains on the server."
+      description="A server-side workflow retrieves relevant documentation before requesting a structured technical evaluation from the OpenAI API."
     >
       <div className="mx-auto max-w-3xl">
         <ArchitectureNode
           label="Next.js Frontend"
           detail="Sales Engineer enters customer requirements in the browser"
         />
-
         <FlowArrow label="HTTP POST request" />
-
         <ArchitectureNode
           label="Next.js API Route"
-          detail="Validates input and coordinates document retrieval and AI analysis"
+          detail="Validates input and coordinates retrieval and AI analysis"
           dark
         />
-
         <FlowArrow label="Retrieve relevant context" />
-
         <ArchitectureNode
           label="Fictional AudienceFlow Documentation"
-          detail="Local product documentation provides source material for evaluating requirements"
+          detail="Product documentation provides evidence for evaluating requirements"
         />
-
-        <FlowArrow label="Relevant documentation returned to server" />
-
+        <FlowArrow label="Retrieved context passed to the model" />
         <ArchitectureNode
           label="OpenAI API"
-          detail="Receives requirements and retrieved documentation, then generates a structured technical evaluation"
+          detail="Generates a structured evaluation using requirements and documentation"
           dark
         />
-
         <FlowArrow label="Structured response" />
-
         <ArchitectureNode
           label="Evaluation Results in Browser"
-          detail="Requirement fit, technical considerations, discovery questions, risks, and recommendations"
+          detail="Requirement fit, discovery questions, risks, and recommendations"
         />
       </div>
 
@@ -369,11 +374,10 @@ function CopilotArchitecture() {
           Why this architecture?
         </h4>
         <p className="mt-2 text-sm leading-7 text-slate-700">
-          Retrieval-augmented generation helps keep recommendations
-          grounded in available documentation. A server-side API route
-          protects credentials and separates application logic from
-          the browser. Undocumented capabilities can be flagged for
-          discovery instead of presented as confirmed features.
+          Retrieval-augmented generation helps ground recommendations in
+          available documentation. Server-side processing protects API
+          credentials. Undocumented capabilities can be flagged for
+          further discovery rather than presented as confirmed.
         </p>
       </div>
     </ArchitectureFrame>
@@ -385,56 +389,45 @@ function SignalBridgeArchitecture() {
     <ArchitectureFrame
       eyebrow="Architecture Diagram"
       title="From API request to persistent customer data"
-      description="SignalBridge connects a browser-based customer workspace and API Explorer to Next.js server routes and a Supabase PostgreSQL database."
+      description="A browser-based integration workspace communicates with Next.js server routes backed by Supabase PostgreSQL."
     >
       <div className="mx-auto max-w-3xl">
         <ArchitectureNode
           label="Browser: SignalBridge Workspace"
-          detail="Overview dashboard, customer management, and interactive API Explorer"
+          detail="Customer management dashboard and interactive API Explorer"
         />
-
-        <FlowArrow label="HTTP requests with JSON payloads where applicable" />
-
+        <FlowArrow label="HTTP requests and JSON payloads" />
         <ArchitectureNode
           label="Next.js Server API Routes"
-          detail="Dashboard endpoint for listing customers and versioned REST endpoints for customer-specific operations"
+          detail="Public demonstration endpoint and protected versioned REST endpoints"
           dark
         />
-
-        <FlowArrow label="Authentication and request validation" />
-
+        <FlowArrow label="Route-specific validation" />
         <div className="grid gap-4 sm:grid-cols-2">
           <ArchitectureNode
             label="Dashboard Data Endpoint"
-            detail="GET /api/dashboard returns customer-list data used by the workspace"
+            detail="Public demonstration CRUD operations using fictional records"
           />
-
           <ArchitectureNode
             label="Protected Customer API"
-            detail="Versioned REST operations validate bearer tokens, request data, and customer identifiers"
+            detail="Versioned REST operations requiring bearer-token authentication"
           />
         </div>
-
         <FlowArrow label="Server-side database operations" />
-
         <ArchitectureNode
           label="Supabase PostgreSQL"
-          detail="Persistent fictional customer records, including identifiers, email addresses, names, and subscription plans"
+          detail="Persistent fictional customer records"
           dark
         />
-
-        <FlowArrow label="Database result returned to the API route" />
-
+        <FlowArrow label="Database result" />
         <ArchitectureNode
           label="HTTP Status + JSON Response"
-          detail="The API returns customer data or a structured error response"
+          detail="Customer data or structured error response"
         />
-
-        <FlowArrow label="Response displayed in the browser" />
-
+        <FlowArrow label="Display response" />
         <ArchitectureNode
           label="Customer Dashboard / API Explorer"
-          detail="Visitors can inspect records, request outcomes, response times, and JSON payloads"
+          detail="Records, HTTP outcomes, response times, and JSON"
         />
       </div>
 
@@ -444,28 +437,159 @@ function SignalBridgeArchitecture() {
             Authentication
           </h4>
           <p className="mt-2 text-sm leading-7 text-slate-700">
-            Protected customer operations use bearer-token validation.
-            This demonstrates a common SaaS API pattern while keeping
-            authentication logic on the server.
+            Versioned customer endpoints use bearer-token validation.
+            The public dashboard operates through a separate demo endpoint.
           </p>
         </div>
-
         <div className="rounded-xl border border-blue-100 bg-blue-50 p-5">
           <h4 className="text-sm font-semibold text-blue-950">
             Error handling
           </h4>
           <p className="mt-2 text-sm leading-7 text-slate-700">
-            The API demonstrates meaningful HTTP outcomes, including
-            400 for invalid input, 401 for unauthorized requests,
-            404 for missing records, and 409 for conflicts.
+            API responses demonstrate HTTP 400 for invalid input,
+            401 for unauthorized requests, 404 for missing records,
+            and 409 for conflicts.
+          </p>
+        </div>
+      </div>
+    </ArchitectureFrame>
+  );
+}
+
+function TriageIQArchitecture() {
+  const tools = [
+    {
+      name: "Booking Status",
+      detail: "Inspect the affected booking or transaction",
+    },
+    {
+      name: "Error Logs",
+      detail: "Retrieve diagnostic events and failures",
+    },
+    {
+      name: "Customer Configuration",
+      detail: "Check account and integration settings",
+    },
+    {
+      name: "Service Health",
+      detail: "Check service availability and incidents",
+    },
+    {
+      name: "Documentation Search",
+      detail: "Retrieve relevant troubleshooting guidance",
+    },
+  ];
+
+  return (
+    <ArchitectureFrame
+      eyebrow="Architecture Diagram"
+      title="From support ticket to evidence-based investigation"
+      description="TriageIQ combines an LLM-driven investigation loop, five executable diagnostic tools, persistent investigation history, and human-reviewed escalation decisions."
+    >
+      <div className="mx-auto max-w-4xl">
+        <ArchitectureNode
+          label="TriageIQ Support Dashboard"
+          detail="Select a fictional customer ticket, start an investigation, and review prior investigations"
+        />
+        <FlowArrow label="Investigation request via REST API" />
+        <ArchitectureNode
+          label="Next.js Server / Agent Orchestrator"
+          detail="Coordinates the investigation, validates requests, executes tools, and manages structured results"
+          dark
+        />
+        <FlowArrow label="Model request with tool definitions" />
+        <ArchitectureNode
+          label="OpenAI Responses API · GPT-4.1 mini"
+          detail="Analyzes available evidence and decides which diagnostic functions to request"
+          dark
+        />
+        <FlowArrow label="Function-call requests returned to server" />
+
+        <div className="rounded-2xl border border-blue-200 bg-blue-50/60 p-5 sm:p-7">
+          <div className="mb-5 text-center">
+            <h4 className="text-sm font-semibold text-slate-950">
+              Diagnostic Tool Execution
+            </h4>
+            <p className="mt-2 text-xs leading-6 text-slate-500">
+              Application code executes the selected functions against
+              fictional diagnostic systems and returns structured JSON.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {tools.map((tool) => (
+              <div
+                key={tool.name}
+                className="rounded-xl border border-blue-100 bg-white p-4 shadow-sm"
+              >
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="h-2 w-2 shrink-0 rounded-full bg-blue-500" />
+                  <h5 className="text-xs font-semibold text-slate-950">
+                    {tool.name}
+                  </h5>
+                </div>
+                <p className="text-xs leading-5 text-slate-500">
+                  {tool.detail}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-5 rounded-lg border border-blue-100 bg-white px-4 py-3 text-center text-xs leading-6 text-slate-600">
+            Tool results return to the model. The agent can request
+            additional tools until it has enough evidence to produce
+            an investigation report.
+          </div>
+        </div>
+
+        <FlowArrow label="Evidence gathered through the investigation loop" />
+        <ArchitectureNode
+          label="Structured Investigation Report"
+          detail="Issue summary, diagnostic evidence, likely root cause, confidence, resolution, and escalation recommendation"
+        />
+        <FlowArrow label="Save report and diagnostic activity" />
+        <ArchitectureNode
+          label="Supabase PostgreSQL"
+          detail="Persists investigations, tool activity, and approval decisions for later review"
+          dark
+        />
+        <FlowArrow label="Present findings for human review" />
+        <ArchitectureNode
+          label="Human Approval Workflow"
+          detail="A reviewer approves or rejects a proposed escalation; the decision is saved to investigation history"
+        />
+      </div>
+
+      <div className="mt-8 grid gap-4 md:grid-cols-2">
+        <div className="rounded-xl border border-blue-100 bg-blue-50 p-5">
+          <h4 className="text-sm font-semibold text-blue-950">
+            What makes this an agent?
+          </h4>
+          <p className="mt-2 text-sm leading-7 text-slate-700">
+            The model dynamically chooses diagnostic tools based on
+            the ticket and evidence returned. The server executes
+            those tool calls, sends results back to the model, and
+            supports further investigation steps.
+          </p>
+        </div>
+        <div className="rounded-xl border border-blue-100 bg-blue-50 p-5">
+          <h4 className="text-sm font-semibold text-blue-950">
+            Why human approval?
+          </h4>
+          <p className="mt-2 text-sm leading-7 text-slate-700">
+            Investigation and recommendations can be automated,
+            but decisions remain subject to human review.
+            The public demo supports approval and rejection
+            without authenticated reviewer identities.
           </p>
         </div>
       </div>
 
       <p className="mt-6 text-xs leading-6 text-slate-500">
-        Architecture is shown as a logical workflow. The customer-list
-        screenshot uses GET /api/dashboard; bearer-token authentication
-        applies to the protected customer API operations.
+        This is a logical architecture of the working demonstration.
+        Diagnostic systems and customer data are fictional. Production
+        use would require reviewer authentication, authorization,
+        API rate limiting, and additional operational controls.
       </p>
     </ArchitectureFrame>
   );
@@ -475,13 +599,9 @@ export default async function ProjectPage({ params }: PageProps) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 
-  if (!project) {
-    notFound();
-  }
+  if (!project) notFound();
 
-  const hasWalkthrough = Boolean(walkthroughs[slug]);
-  const isCopilot = slug === "ai-sales-engineer-copilot";
-  const isSignalBridge = slug === "signalbridge-integration-lab";
+  const hasWalkthrough = Boolean(walkthroughs[slug]?.length);
 
   return (
     <main className="min-h-screen bg-[#f8fafc] text-slate-900">
@@ -526,8 +646,7 @@ export default async function ProjectPage({ params }: PageProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
               >
-                Launch Live Demo
-                <ArrowIcon />
+                Launch Live Demo <ArrowIcon />
               </a>
             )}
 
@@ -538,8 +657,7 @@ export default async function ProjectPage({ params }: PageProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-600"
               >
-                View Source Code
-                <ArrowIcon />
+                View Source Code <ArrowIcon />
               </a>
             )}
 
@@ -664,8 +782,15 @@ export default async function ProjectPage({ params }: PageProps) {
             description="A high-level view of the components and how information moves through the system."
           />
 
-          {isCopilot && <CopilotArchitecture />}
-          {isSignalBridge && <SignalBridgeArchitecture />}
+          {slug === "ai-sales-engineer-copilot" && (
+            <CopilotArchitecture />
+          )}
+
+          {slug === "signalbridge-integration-lab" && (
+            <SignalBridgeArchitecture />
+          )}
+
+          {slug === "triageiq" && <TriageIQArchitecture />}
 
           <div className="grid gap-6 lg:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 bg-white p-8">
@@ -687,12 +812,11 @@ export default async function ProjectPage({ params }: PageProps) {
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-600 text-xs font-semibold text-white">
                         {index + 1}
                       </div>
-
-                      {index < project.architecture.dataFlow.length - 1 && (
+                      {index <
+                        project.architecture.dataFlow.length - 1 && (
                         <div className="my-1 h-7 w-px bg-blue-200" />
                       )}
                     </div>
-
                     <p className="pt-1.5 text-sm leading-6 text-slate-600">
                       {step}
                     </p>
@@ -712,7 +836,6 @@ export default async function ProjectPage({ params }: PageProps) {
             title="Key technical decisions"
             description="The reasoning behind the technologies and approaches used."
           />
-
           <div className="max-w-4xl">
             <BulletList items={project.technicalDecisions} />
           </div>
@@ -726,7 +849,6 @@ export default async function ProjectPage({ params }: PageProps) {
             number="05 / PROBLEM SOLVING"
             title="Challenges and lessons"
           />
-
           <div className="rounded-2xl border border-slate-200 bg-white p-8 lg:p-10">
             <BulletList items={project.challenges} />
           </div>
@@ -784,8 +906,7 @@ export default async function ProjectPage({ params }: PageProps) {
             href="/#projects"
             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
           >
-            All Projects
-            <ArrowIcon />
+            All Projects <ArrowIcon />
           </Link>
         </div>
       </section>
