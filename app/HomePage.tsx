@@ -225,7 +225,7 @@ export default function HomePage() {
               </span>
             </div>
 
-            <div className="grid gap-8 lg:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {featuredProjects.map((project) => (
                 <ProjectCard
                   key={project.slug}
