@@ -344,23 +344,30 @@ export default function HomePage() {
 
             <div className="mt-9 flex flex-wrap justify-center gap-4">
               <a
-                href="https://github.com/WlliamSessions"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-6 py-4 text-sm font-semibold text-white transition hover:bg-blue-600"
+                href="mailto:Bds15@albion.edu"
+                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-4 text-sm font-semibold text-white transition hover:bg-blue-700"
               >
-                GitHub
+                Email Me
                 <ArrowIcon diagonal />
               </a>
 
               <a
-                href="#home"
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-6 py-4 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+                href="https://www.linkedin.com/in/billy-s-045b4264/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-6 py-4 text-sm font-semibold text-slate-800 transition hover:border-blue-300 hover:text-blue-700"
               >
-                Back to Top
+                LinkedIn
                 <ArrowIcon diagonal />
               </a>
             </div>
+
+            <a
+              href="mailto:Bds15@albion.edu"
+              className="mt-6 inline-block text-sm text-slate-500 transition hover:text-blue-600"
+            >
+              Bds15@albion.edu
+            </a>
           </div>
         </section>
       </main>
