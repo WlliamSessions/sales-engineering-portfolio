@@ -18,7 +18,7 @@ const highlights = [
     detail: "Supported by AI-assisted requirements workflows",
   },
   {
-    value: "10",
+    value: "10+",
     label: "Technical playbooks",
     detail: "Created for emerging products and Sales enablement",
   },
@@ -152,6 +152,7 @@ export default function ExperiencePage() {
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-700">
             Selected Impact
           </p>
+
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
             Outcomes, not just responsibilities.
           </h2>
@@ -182,9 +183,11 @@ export default function ExperiencePage() {
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-700">
             Beyond the Job Description
           </p>
+
           <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
             Things I&apos;ve helped build.
           </h2>
+
           <p className="mt-5 max-w-3xl leading-8 text-slate-600">
             A few examples of how I approach technical leadership,
             operational improvements, and connecting customer requirements
@@ -200,12 +203,15 @@ export default function ExperiencePage() {
                 <span className="text-xs font-bold tracking-[0.2em] text-blue-700">
                   {item.number}
                 </span>
+
                 <h3 className="mt-5 text-xl font-semibold text-slate-950">
                   {item.title}
                 </h3>
+
                 <p className="mt-4 text-sm leading-7 text-slate-600">
                   {item.description}
                 </p>
+
                 <div className="mt-6 flex flex-wrap gap-2">
                   {item.tags.map((tag) => (
                     <span
@@ -227,6 +233,7 @@ export default function ExperiencePage() {
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-700">
             Career Progression
           </p>
+
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
             The path to Sales Engineering.
           </h2>
@@ -245,6 +252,7 @@ export default function ExperiencePage() {
                     {item.company}
                   </p>
                 </div>
+
                 <div>
                   <h3 className="text-lg font-semibold text-slate-950">
                     {item.role}
@@ -273,13 +281,16 @@ export default function ExperiencePage() {
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-300">
             Explore Further
           </p>
+
           <h2 className="mt-5 text-3xl font-semibold tracking-tight md:text-4xl">
             Want the full picture?
           </h2>
+
           <p className="mx-auto mt-5 max-w-2xl leading-8 text-slate-300">
             Browse my resume for a complete overview of my experience,
             technical skills, and certifications.
           </p>
+
           <Link
             href="/resume"
             className="mt-8 inline-flex rounded-lg bg-white px-7 py-3.5 text-sm font-semibold text-slate-900 transition hover:bg-blue-50"

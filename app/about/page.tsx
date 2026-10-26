@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -470,146 +469,154 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* CHAPTER 02: CAREER */}
+      {/* CHAPTER 02: CAREER - MATCHES CHAPTER 01 LAYOUT */}
       <section className="border-y border-slate-200 bg-white py-20 md:py-28">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionLabel>Chapter 02</SectionLabel>
+          <div className="grid gap-12 lg:grid-cols-[250px_1fr] lg:gap-20">
+            {/* LEFT COLUMN */}
+            <div>
+              <SectionLabel>Chapter 02</SectionLabel>
 
-          <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-            Finding my way into Sales Engineering.
-          </h2>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950">
+                Finding my way into Sales Engineering.
+              </h2>
 
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-            An unexpected career path that brought together my
-            analytical background, technical curiosity, and a
-            passion for helping people master complex technology.
-          </p>
+              <p className="mt-4 text-sm leading-7 text-slate-500">
+                An unexpected career path that brought together my
+                analytical background, technical curiosity, and a
+                passion for helping people master complex technology.
+              </p>
+            </div>
 
-          {/* CAREER TIMELINE */}
-          <div className="mt-14 grid gap-5 md:grid-cols-2">
-            {careerSteps.map((step) => (
-              <div
-                key={step.number}
-                className="rounded-2xl border border-slate-200 bg-[#f8fafc] p-7 transition hover:border-blue-200 hover:shadow-sm"
-              >
-                <span className="text-xs font-bold tracking-[0.2em] text-blue-700">
-                  {step.number}
-                </span>
+            {/* RIGHT COLUMN */}
+            <div className="min-w-0">
+              {/* CAREER TIMELINE */}
+              <div className="mb-12 grid gap-4 sm:grid-cols-2">
+                {careerSteps.map((step) => (
+                  <div
+                    key={step.number}
+                    className="rounded-2xl border border-slate-200 bg-[#f8fafc] p-6 transition hover:border-blue-200 hover:shadow-sm"
+                  >
+                    <span className="text-xs font-bold tracking-[0.2em] text-blue-700">
+                      {step.number}
+                    </span>
 
-                <h3 className="mt-4 text-xl font-semibold text-slate-950">
-                  {step.title}
-                </h3>
+                    <h3 className="mt-4 text-lg font-semibold text-slate-950">
+                      {step.title}
+                    </h3>
 
-                <p className="mt-1 text-sm font-medium text-blue-700">
-                  {step.subtitle}
+                    <p className="mt-1 text-sm font-medium text-blue-700">
+                      {step.subtitle}
+                    </p>
+
+                    <p className="mt-4 text-sm leading-7 text-slate-600">
+                      {step.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* CAREER STORY */}
+              <div className="space-y-6 text-[16px] leading-8 text-slate-600 md:text-[17px]">
+                <p>
+                  I didn't graduate college with a plan to become a
+                  Sales Engineer. I'm not even sure I knew the role existed.
                 </p>
 
-                <p className="mt-4 text-sm leading-7 text-slate-600">
-                  {step.description}
+                <p>
+                  After my poker career came to an end, I put my economics
+                  degree and many of the skills I'd developed at the tables
+                  to work in digital advertising, starting on the agency
+                  side at Doner and Amnet. It was an industry where analyzing
+                  data, recognizing patterns, and making strategic decisions
+                  were just as important as they'd been in poker, only now
+                  I was applying those skills to advertising campaigns
+                  instead of card games.
+                </p>
+
+                <p>
+                  What I discovered pretty quickly was that I was often
+                  more interested in understanding how the technology worked
+                  than simply using it. I wanted to know what was happening
+                  behind the scenes. How did platforms communicate? Where
+                  did the data come from? What actually caused something
+                  to break?
+                </p>
+
+                <p>
+                  That curiosity eventually led me to Innovid, where I had
+                  the opportunity to transition into a client-facing
+                  technical support role. As I developed a deep
+                  understanding of the platform, I became someone customers
+                  and colleagues could turn to for help navigating its more
+                  complex capabilities.
+                </p>
+
+                <p>
+                  But what I found most rewarding wasn't just solving
+                  technical problems myself. It was helping other people
+                  develop the knowledge and confidence to solve them
+                  independently.
+                </p>
+
+                <p>
+                  That became especially clear when I helped lead the
+                  development of Innovid's self-service offering. Moving
+                  customers toward self-service required much more than
+                  giving them access to a platform and hoping they'd
+                  figure it out. We needed to create an experience that
+                  would actually set them up for success.
+                </p>
+
+                <p>
+                  I loved that challenge. I helped build the onboarding
+                  processes, documentation, training materials, and
+                  educational resources customers needed to become
+                  proficient with the technology. There was something
+                  incredibly satisfying about taking a complicated
+                  platform, breaking it down into understandable pieces,
+                  and watching customers become confident users.
+                </p>
+
+                <p>
+                  Looking back, that experience laid much of the
+                  foundation for my eventual move into Sales Engineering.
+                  The same skills I enjoyed developing at Innovid were
+                  central to the role: understanding technical capabilities,
+                  communicating them clearly, delivering effective
+                  demonstrations, anticipating customer questions, and
+                  helping people understand how technology could solve
+                  their problems.
+                </p>
+
+                <p>
+                  Becoming a Founding Sales Engineer at PulsePoint felt
+                  like a natural next step. Instead of focusing primarily
+                  on helping existing customers master a platform, I
+                  could get involved earlier in the process. I could
+                  participate in discovery, understand a prospective
+                  customer's challenges, design solutions, and demonstrate
+                  how the technology could meet their needs.
+                </p>
+
+                <p>
+                  And that's ultimately what I enjoy about Sales
+                  Engineering. It combines technical curiosity with
+                  problem-solving, education, and working directly
+                  with people. I get to understand how things work,
+                  figure out how they can create value, and help
+                  others see what's possible.
+                </p>
+
+                <p>
+                  This portfolio is an extension of that same mindset.
+                  Rather than simply listing technologies I've worked
+                  with, I wanted to build functional projects that
+                  demonstrate my ability to learn, experiment,
+                  troubleshoot, and explain technical solutions.
                 </p>
               </div>
-            ))}
-          </div>
-
-          {/* CAREER STORY */}
-          <div className="mt-14 max-w-3xl space-y-6 text-[16px] leading-8 text-slate-600 md:text-[17px]">
-            <p>
-              I didn't graduate college with a plan to become a
-              Sales Engineer. I'm not even sure I knew the role existed.
-            </p>
-
-            <p>
-              After my poker career came to an end, I put my economics
-              degree and many of the skills I'd developed at the tables
-              to work in digital advertising, starting on the agency
-              side at Doner and Amnet. It was an industry where analyzing
-              data, recognizing patterns, and making strategic decisions
-              were just as important as they'd been in poker, only now
-              I was applying those skills to advertising campaigns
-              instead of card games.
-            </p>
-
-            <p>
-              What I discovered pretty quickly was that I was often
-              more interested in understanding how the technology worked
-              than simply using it. I wanted to know what was happening
-              behind the scenes. How did platforms communicate? Where
-              did the data come from? What actually caused something
-              to break?
-            </p>
-
-            <p>
-              That curiosity eventually led me to Innovid, where I had
-              the opportunity to transition into a client-facing
-              technical support role. As I developed a deep
-              understanding of the platform, I became someone customers
-              and colleagues could turn to for help navigating its more
-              complex capabilities.
-            </p>
-
-            <p>
-              But what I found most rewarding wasn't just solving
-              technical problems myself. It was helping other people
-              develop the knowledge and confidence to solve them
-              independently.
-            </p>
-
-            <p>
-              That became especially clear when I helped lead the
-              development of Innovid's self-service offering. Moving
-              customers toward self-service required much more than
-              giving them access to a platform and hoping they'd
-              figure it out. We needed to create an experience that
-              would actually set them up for success.
-            </p>
-
-            <p>
-              I loved that challenge. I helped build the onboarding
-              processes, documentation, training materials, and
-              educational resources customers needed to become
-              proficient with the technology. There was something
-              incredibly satisfying about taking a complicated
-              platform, breaking it down into understandable pieces,
-              and watching customers become confident users.
-            </p>
-
-            <p>
-              Looking back, that experience laid much of the
-              foundation for my eventual move into Sales Engineering.
-              The same skills I enjoyed developing at Innovid were
-              central to the role: understanding technical capabilities,
-              communicating them clearly, delivering effective
-              demonstrations, anticipating customer questions, and
-              helping people understand how technology could solve
-              their problems.
-            </p>
-
-            <p>
-              Becoming a Founding Sales Engineer at PulsePoint felt
-              like a natural next step. Instead of focusing primarily
-              on helping existing customers master a platform, I
-              could get involved earlier in the process. I could
-              participate in discovery, understand a prospective
-              customer's challenges, design solutions, and demonstrate
-              how the technology could meet their needs.
-            </p>
-
-            <p>
-              And that's ultimately what I enjoy about Sales
-              Engineering. It combines technical curiosity with
-              problem-solving, education, and working directly
-              with people. I get to understand how things work,
-              figure out how they can create value, and help
-              others see what's possible.
-            </p>
-
-            <p>
-              This portfolio is an extension of that same mindset.
-              Rather than simply listing technologies I've worked
-              with, I wanted to build functional projects that
-              demonstrate my ability to learn, experiment,
-              troubleshoot, and explain technical solutions.
-            </p>
+            </div>
           </div>
         </div>
       </section>
